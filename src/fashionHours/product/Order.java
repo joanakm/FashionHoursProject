@@ -13,8 +13,19 @@ public class Order {
 	private double totalCost;
 	
 	public Order(double cost, Map<Integer,Product> products) {
+		this.totalCost=cost;
 		this.id=count++;
 		this.products=products;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb=new StringBuilder();
+		sb.append(user+"\n");
+		sb.append(products+"\n");
+		sb.append("Total: "+totalCost+"\n");
+		return sb.toString();
+		
 	}
 	
 }
