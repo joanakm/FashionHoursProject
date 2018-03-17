@@ -188,6 +188,18 @@ public class Shop {
 		return products;
 	}
 	
+	public void search(String s){
+		Set<Product> searchedProducts =new HashSet<Product>();
+		for(Product p : getProductsOnly() ) {
+			if(p.getDescription().contains(s)) {
+				searchedProducts.add(p);
+			}
+		}
+		for(Product p: searchedProducts) {
+			System.out.println(p);
+		}
+	}
+	
 	public void addProduct(Product product, int quantity) {
 		if(productsInShop.containsKey(product.getId())) {
 			System.out.println("Sorry, this product is already in the shop.");

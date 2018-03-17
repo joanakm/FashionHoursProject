@@ -44,7 +44,6 @@ public abstract class Product{
 	private int quantity;
 	private int id=0;
 	private double price;
-	protected static Shop shop;
 	
 	public Product(Brand brand, ForGender gender, TypeProduct product, String description, double price) {
 	
@@ -53,16 +52,6 @@ public abstract class Product{
 		this.description = description;
 		this.price = price;
 		this.id = count++;
-	}
-	
-	public Set<Product> search(String s){
-		Set<Product> searchedProducts =new HashSet<Product>();
-		for(Product p : shop.getProductsOnly() ) {
-			if(p.getDescription().contains(s)) {
-				searchedProducts.add(p);
-			}
-		}
-		return searchedProducts;
 	}
 	
 	@Override

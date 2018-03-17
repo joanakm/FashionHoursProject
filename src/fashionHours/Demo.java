@@ -17,11 +17,11 @@ public class Demo {
 		u.register();
 	    System.out.println(u);
 	    System.out.println();
-		Product blouse = new Clothing(Brand.DENIM, ForGender.WOMAN, KindClothes.BLOUSES, "Pinky blouse", 14.99, SizeClothes.S, shop);
+		Product blouse = new Clothing(Brand.DENIM, ForGender.WOMAN, KindClothes.BLOUSES, "Pinky blouse", 14.99, SizeClothes.S);
 		
-		Product sneakers = new Shoes(Brand.CONVERSE, ForGender.MAN, KindShoes.SPORT, "Classic sport shoes", 85, 43, shop); 
+		Product sneakers = new Shoes(Brand.CONVERSE, ForGender.MAN, KindShoes.SPORT, "Classic sport shoes", 85, 43); 
 
-		Product bag = new Accessories(Brand.NEXT, ForGender.WOMAN, KindAccessories.BAGS, "Beach bag", 30, shop); 
+		Product bag = new Accessories(Brand.NEXT, ForGender.WOMAN, KindAccessories.BAGS, "Beach bag", 30); 
 		shop.addProduct(bag,5);  
 		shop.addProduct(sneakers,4); 
         shop.addProduct(blouse,1); 
@@ -42,7 +42,8 @@ public class Demo {
 	    System.out.println("======= total cost of the cart ======="); 
 		cart.totalCost(); 
 	
-
+		System.out.println();
+		shop.search("bag");
 	}	
 	
 }
