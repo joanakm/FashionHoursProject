@@ -18,10 +18,9 @@ import fashionHours.product.Product;
 
 public class Shop {
 
-	private Set<String> emails=new HashSet<>();
-	private Set<String> cities=new TreeSet<String>();
-	
-	//products with key-->id
+	    private Set<String> emails=new HashSet<>();
+	    private Set<String> cities=new TreeSet<String>();
+	    //products with key-->id
 		private HashMap<Integer, Product> productsInShop ;
 		//Singleton
 		private static Shop shop;
@@ -179,6 +178,14 @@ public class Shop {
 
 	public HashMap<Integer, Product> getProductsInShop() {
 		return productsInShop;
+	}
+	
+	public Set<Product> getProductsOnly(){
+		Set<Product> products=new HashSet<Product>();
+		for(Map.Entry<Integer, Product> e : productsInShop.entrySet()) {
+			products.add(e.getValue());
+		}
+		return products;
 	}
 	
 	public void addProduct(Product product, int quantity) {

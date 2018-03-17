@@ -28,7 +28,7 @@ public class User {
 	
     public User(Shop s) {
 		shop=s;
-		this.addresses = new HashMap();
+		this.addresses = new HashMap<String, String>();
 	}
 	
 	public void login() {
@@ -51,6 +51,12 @@ public class User {
 	
 	public void logout() {
 		isLoggedIn=false; 
+	}
+	
+	public void showOrders() {
+		for(Order o: orders) {
+			System.out.println(o);
+		}
 	}
 	
 	private boolean validatePhone(String ph) {

@@ -1,5 +1,10 @@
 package fashionHours.product;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import fashionHours.shop.Shop;
+
 public abstract class Product{
 
 	public enum ForGender{
@@ -39,6 +44,7 @@ public abstract class Product{
 	private int quantity;
 	private int id=0;
 	private double price;
+	protected static Shop shop;
 	
 	public Product(Brand brand, ForGender gender, TypeProduct product, String description, double price) {
 	
@@ -46,9 +52,41 @@ public abstract class Product{
 		this.typeProduct = product;
 		this.description = description;
 		this.price = price;
-		this.id = count++; 
+		this.id = count++;
 	}
 	
+	public Set<Product> search(String s){
+		Set<Product> searchedProducts =new HashSet<Product>();
+		for(Product p : shop.getProductsOnly() ) {
+			if(p.getDescription().contains(s)) {
+				searchedProducts.add(p);
+			}
+		}
+		return searchedProducts;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
+
 	public int getId() {
 		return id;
 	}
