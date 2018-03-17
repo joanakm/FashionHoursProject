@@ -1,18 +1,9 @@
 package fashionHours;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-
-import org.omg.Messaging.SyncScopeHelper;
 
 import fashionHours.product.*;
 import fashionHours.shop.Shop;
@@ -36,18 +27,9 @@ public class User {
 	}
 	
     public User(Shop s) {
-		this.shop=s;
+		shop=s;
 		this.addresses = new HashMap();
 	}
-	private User( String email, String phone, Address address) {
-		
-		this.email = email;
-		this.phone = phone;
-		this.orders = new ArrayList<>();
-		this.addresses = new HashMap();
-		
-	}
-
 	
 	public void login() {
 		Scanner sc=new Scanner(System.in);
@@ -102,6 +84,7 @@ public class User {
 		do {
 			System.out.println("Please, enter your password: ");
 			pass=sc.nextLine();
+			
 			if(pass!=null && !pass.isEmpty()) {
 				//check if it has at least 8 chars
 				if(pass.length()<MAX_CHARS_IN_PASS) {
@@ -178,17 +161,18 @@ public class User {
         do {
 	        System.out.println("Please, enter your email address: ");
 	        mail=sc.nextLine();
+	        
 	        if(validateEmailAddress(mail)) {
-	        	if(this.shop.canRegister(mail)) {
+	        	if(shop.canRegister(mail)) {
 	        		this.email=mail;
-	        		this.shop.addEmailToSet(this.email);
+	        		shop.addEmailToSet(this.email);
 		        	return true;
 	        	}else {
 	        		enterEmailAddress();
 	        	}
 	        }
 	    }while(!validateEmailAddress(mail));
-        sc.close(); 
+        sc.close();
         return false;
    }
 	
@@ -199,6 +183,7 @@ public class User {
 			System.out.println("Please, enter your mobile phone: ");
 			System.out.print("+359");
 			phone=sc.nextLine();
+			
 			if(validatePhone(phone)) {
 				this.phone=phone;
 				return true;
@@ -209,42 +194,45 @@ public class User {
 	}
 	
 	private boolean enterName() {
-        Scanner sc=new Scanner(System.in);
+		Scanner sc=new Scanner(System.in);
         String name=null;
-        do {
-        	if(methodInvokeCounter==1) {
-			  System.out.println("Please, enter your first name: ");
-        	}
-        	if(methodInvokeCounter==2) {
-        	  System.out.println("Please, enter your last name: ");
-        	}
-			name=sc.nextLine();
-			if(validateName(name)) {
-				if(methodInvokeCounter==1) {
-					this.firstName=name;
-					methodInvokeCounter=2;
-					return true;
+	        do {
+	        	
+	        	if(methodInvokeCounter==1) {
+				  System.out.println("Please, enter your first name: ");
+	        	}
+	        	if(methodInvokeCounter==2) {
+	        	  System.out.println("Please, enter your last name: ");
+	        	}
+				name=sc.nextLine();
+				 
+				if(validateName(name)) {
+					if(methodInvokeCounter==1) {
+						this.firstName=name;
+						methodInvokeCounter=2;
+						return true;
+					}
+					if(methodInvokeCounter==2) {
+						this.lastName=name;
+						methodInvokeCounter=1;
+						return true;
+					}
+					
 				}
-				if(methodInvokeCounter==2) {
-					this.lastName=name;
-					methodInvokeCounter=1;
-					return true;
-				}
-				
-			}
-        }while(!validateName(name));
-        sc.close();
+				 
+	        }while(!validateName(name));
+	       sc.close();
         return false;
 	}
 	
 	private void enterAndValidateGender() {
 		Scanner sc=new Scanner(System.in);
 		String gender=null;
+		
 		while(true) {
 			boolean valid=false;
 			System.out.println("Please, enter your gender: ");
 			gender=sc.nextLine().toLowerCase().trim();
-			
 			switch (gender){
 			case "female": {
 				this.gender=Gender.FEMALE;
@@ -272,7 +260,7 @@ public class User {
 				break;
 			}
 		}
-		sc.close();
+		
 	}
 	
 	public void addAddress() {
@@ -281,7 +269,7 @@ public class User {
 		do {
 		   System.out.println("Please, enter your city: ");
 		   city=sc.nextLine().toUpperCase();
-		}while(!this.shop.getCities().contains(city));
+		}while(!shop.getCities().contains(city));
 		System.out.println("Please, enter your street and number: ");
 		String street=sc.nextLine();
 		this.addresses.put(city, street);
@@ -293,11 +281,11 @@ public class User {
 		enterName();
 		enterName();
 		
+		//enter and validate gender
+	    enterAndValidateGender();
+		
 		//enter and validate password
 		enterPassword();
-		
-		//enter and validate gender
-		enterAndValidateGender();
 						
 		//enter and validate email
 		enterEmailAddress();
@@ -312,26 +300,30 @@ public class User {
 	}
 	
 	public void changeName() {
-		enterName();
-	    if(enterName()) {
-	    	System.out.println("Your name has been changed.");
-	    }
+		if(isLoggedIn) {
+			enterName();
+		    if(enterName()) {
+		    	System.out.println("Your name has been changed.");
+		    }
+		}
 	}
 	
 	public void changePassword() {
-		Scanner sc=new Scanner(System.in);
-		String pass=null;
-		do {
-			System.out.println("Old password: ");
-			pass=sc.nextLine();
-			if(pass.equals(this.password)) {
-				System.out.println("Set new password");
-				enterPassword();
-				System.out.println("Your password has been changed.");
-				break;
-			}
-		}while(!pass.equals(this.password));
-		sc.close();
+		if(isLoggedIn) {
+			Scanner sc=new Scanner(System.in);
+			String pass=null;
+			do {
+				System.out.println("Old password: ");
+				pass=sc.nextLine();
+				if(pass.equals(this.password)) {
+					System.out.println("Set new password");
+					enterPassword();
+					System.out.println("Your password has been changed.");
+					break;
+				}
+			}while(!pass.equals(this.password));
+			sc.close();
+		}
 	}
 	
 	@Override
@@ -340,6 +332,7 @@ public class User {
 		sb.append("First name: "+firstName+"\n");
 		sb.append("Last name: "+lastName+"\n");
 		sb.append("Email address: "+email+"\n");
+		sb.append("Mobile phone: "+phone+"\n");
 		sb.append("Gender: "+gender+"\n");
 		sb.append("===Addresses===\n");
 		sb.append(addresses);
