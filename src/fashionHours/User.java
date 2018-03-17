@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import fashionHours.product.*;
+import fashionHours.shop.Cart;
 import fashionHours.shop.Shop;
 public class User {
 
@@ -21,6 +22,7 @@ public class User {
 	private Map<String,String> addresses;
 	private boolean isLoggedIn=false;
 	private static Shop shop;
+	private Cart cart;
 	
 	private enum Gender{
 		MALE, FEMALE
@@ -29,6 +31,7 @@ public class User {
     public User(Shop s) {
 		shop=s;
 		this.addresses = new HashMap<String, String>();
+		cart=new Cart(s);
 	}
 	
 	public void login() {
@@ -312,6 +315,11 @@ public class User {
 		    	System.out.println("Your name has been changed.");
 		    }
 		}
+	}
+	
+	public void placeOrder() {
+		this.cart.emptyCart();
+		this.orders.add(new Order(cart.getTotalCost(),cart.getProductsInCart()));
 	}
 	
 	public void changePassword() {

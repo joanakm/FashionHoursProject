@@ -29,6 +29,15 @@ public class Cart {
 		
 	}
 	
+	public void emptyCart() {
+		this.productsInCart.clear();
+		this.totalCost=0;
+	}
+	
+	public HashMap<Integer, Product> getProductsInCart() {
+		return productsInCart;
+	}
+	
 	public void remove(Product product, int quantity) {
 		if(!(this.productsInCart.containsKey(product.getId()))) {
 			System.out.println("Sorry, this product is not in the cart, you can not remove it.");
@@ -68,6 +77,8 @@ public class Cart {
 		System.out.print("Cost:"+totalCost);
 	}
 	
-	
+	public double getTotalCost() {
+		return totalCost;
+	}
 	
 }
