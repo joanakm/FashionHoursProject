@@ -75,6 +75,10 @@ public abstract class Product{
 			return false;
 		return true;
 	}
+	
+	public double getDiscounterPrice(Product productForSale,double discount) {
+		return productForSale.getPrice()-((productForSale.getPrice()*discount)/100);
+	}
 
 	public int getId() {
 		return id;
@@ -91,6 +95,10 @@ public abstract class Product{
 	
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+	
+	public void setPrice(double price) {
+		this.price = price;
 	}
 	
 	public double getPrice() {

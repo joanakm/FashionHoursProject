@@ -20,6 +20,7 @@ public class Shop {
 
 	    private Set<String> emails=new HashSet<>();
 	    private Set<String> cities=new TreeSet<String>();
+		private Set<String> admins;
 	    //products with key-->id
 		private HashMap<Integer, Product> productsInShop ;
 		//Singleton
@@ -28,6 +29,8 @@ public class Shop {
 			System.out.println("======= FashionHours.bg created =======");
 			this.productsInShop = new HashMap<>();
 			addCities();
+			admins.add("joanakm16@gmail.com");
+			admins.add("mimigenomir@gmail.com");
 		}
 	
 		public static Shop createShop() { 
@@ -36,6 +39,10 @@ public class Shop {
 			} 
 			return shop; 
          } 
+		
+		public Set<String> getAdmins() {
+			return admins;
+		}
 		
 	public Set<String> getCities(){
 		return this.cities;

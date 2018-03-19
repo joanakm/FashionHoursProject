@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import fashionHours.product.*;
 import fashionHours.shop.Cart;
@@ -23,6 +24,7 @@ public class User {
 	private boolean isLoggedIn=false;
 	private static Shop shop;
 	private Cart cart;
+	private boolean isAdmin=false;
 	
 	private enum Gender{
 		MALE, FEMALE
@@ -44,6 +46,9 @@ public class User {
 			if(validatePassword(pass)) {
 				if(this.email.equals(email) && this.password.equals(pass)) {
 					isLoggedIn=true;
+					if(shop.getAdmins().contains(this.email)) {
+						isAdmin=true;
+					}
 				}else {
 					System.out.println("Please, try again.");
 				}
@@ -54,6 +59,28 @@ public class User {
 	
 	public void logout() {
 		isLoggedIn=false; 
+	}
+	
+	//discount method, passing one product
+	public void putUpForSale(Product productForSale, double discount) {
+		//discount is measured in %
+		if(isAdmin) {
+			//set new price for the product
+			productForSale.setPrice(productForSale.getDiscounterPrice(productForSale, discount));
+		} else {
+			System.out.println("Operation not allowed");
+		} 
+	}
+	
+	//discount method, passing set of products
+	public void putUpForSale(Set<Product> productsForSale, double discount) {
+		if(isAdmin) {
+			for(Product p : productsForSale) {
+				p.setPrice(p.getDiscounterPrice(p, discount));
+			}
+		}else {
+			System.out.println("Operation not allowed");
+		}
 	}
 	
 	public void showOrders() {
